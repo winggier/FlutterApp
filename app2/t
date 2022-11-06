@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+
+// ui
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Sample App',
+
+      home: Scaffold(
+        appBar: AppBar(title: const Text('App2')),
+        body: const MyStatefulWidget(),
+      ),
+      // home:  MyStatefulWidget(),
+      // routes: {
+      //   // When navigating to the "/" route, build the FirstScreen widget.
+      //   '/': (context) => const MyStatefulWidget(),
+      //   // When navigating to the "/second" route, build the SecondScreen widget.
+      //   '/second': (context) => const SecondScreen(),
+      // },
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: ListView(
+          children: <Widget>[
+            Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(10),
+                child: const Text(
+                  'User Form',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 30),
+                )),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'User Name',
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: idController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'User Id',
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'User email',
+                ),
+              ),
+            ),
+            Container(
+              height: 200,
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: TextField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                ),
+              ),
+            ),
+            Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                  child: const Text('Login'),
+                  onPressed: () {
+                    print(nameController.text);
+                    print(passwordController.text);
+                    print(idController.text);
+                    print(emailController.text);
+                  },
+                )),
+          ],
+        ));
+  }
+}
+
+class SecondScreen extends StatelessWidget {
+  const SecondScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Second Screen'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          // Within the SecondScreen widget
+          onPressed: () {
+            // Navigate back to the first screen by popping the current route
+            // off the stack.
+            Navigator.pop(context);
+          },
+          child: const Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
