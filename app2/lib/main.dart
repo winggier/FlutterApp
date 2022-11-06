@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Form1',
+      title: 'Form App',
       home: FirstScreen(),
     );
   }
@@ -38,7 +38,8 @@ class _MyCustomFormState extends State<FirstScreen> {
   TextEditingController c3 = TextEditingController();
   TextEditingController c4 = TextEditingController();
   var newc = Customer("", "", "", "");
-  bool _isValid = false;
+  bool eValid = false;
+  bool nValid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +62,19 @@ class _MyCustomFormState extends State<FirstScreen> {
               ),
               onChanged: (text) {
                 newc.name = text;
+                setState(() {
+                  nValid = newc.name != '';
+                });
                 // ignore: avoid_print
                 print('1st text field: $text');
               },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(nValid ? '' : 'Name is not valid.',
+                  style: const TextStyle(
+                    color: Colors.red,
+                  )),
             ),
             const SizedBox(
               height: 25,
@@ -103,23 +114,23 @@ class _MyCustomFormState extends State<FirstScreen> {
               onChanged: (text) {
                 newc.email = text;
                 setState(() {
-                  _isValid = EmailValidator.validate(text);
+                  eValid = EmailValidator.validate(text);
                 });
               },
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(_isValid ? '' : 'Email is not valid.',
+              child: Text(eValid ? '' : 'Email is not valid.',
                   style: const TextStyle(
                     color: Colors.red,
                   )),
             ),
             const SizedBox(
-              height: 100,
+              height: 120,
             ),
             ElevatedButton(
               onPressed: () {
-                if (_isValid) {
+                if (eValid && nValid) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -133,13 +144,13 @@ class _MyCustomFormState extends State<FirstScreen> {
                     context: context,
                     builder: (context) {
                       return const AlertDialog(
-                        content: Text("Please input valid email"),
+                        content: Text("Please input valid email and name"),
                       );
                     },
                   );
                 }
               },
-              child: const Text('Submit!'),
+              child: const Text('Submit'),
             ),
           ],
         ),
@@ -180,16 +191,12 @@ ListTile _tile(String title, String subtitle, IconData icon) {
     title: Text(title,
         style: const TextStyle(
           color: Colors.blue,
-          fontSize: 16,
         )),
     leading: Icon(
       icon,
       color: Colors.blue[500],
     ),
     subtitle: Text(subtitle,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 24,
-        )),
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 26)),
   );
 }
